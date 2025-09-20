@@ -1,29 +1,44 @@
 import express from "express"
-import fetch from "node-fetch"
 import cors from "cors"
+import fetch from "node-fetch"
 import dotenv from "dotenv"
 
 dotenv.config()
+
 const app = express()
 app.use(cors())
 app.use(express.json())
 
-const SPOONACULAR_KEY = process.env.SPOONACULAR_KEY
+app.get("/", (req, res) => {
+  res.send("Backend attivo!")
+})
 
 app.post("/api/recipes", async (req, res) => {
   try {
     const { ingredients } = req.body
-    const response = await fetch(
-      `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${SPOONACULAR_KEY}&ingredients=${ingredients.join(
-        ","
-      )}&number=10`
+    console.log("Ingredienti ricevuti dal frontend:", ingredients)
+
+    const spoonResponse = await fetch(
+      `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${
+        process.env.SPOONACULAR_KEY
+      }&ingredients=${ingredients.join(",")}&number=15`
     )
-    const data = await response.json()
-    res.json(Array.isArray(data) ? data : [])
+
+    if (!spoonResponse.ok) {
+      throw new Error(`Errore Spoonacular: ${spoonResponse.status}`)
+    }
+
+    const recipes = await spoonResponse.json()
+    console.log("Risposta Spoonacular:", recipes)
+
+    res.json(recipes)
   } catch (err) {
-    console.error(err)
+    console.error("Errore backend:", err)
     res.status(500).json({ error: "Errore nella ricerca delle ricette" })
   }
 })
 
-app.listen(3001, () => console.log("Server running on port 3001"))
+// Avvio server
+app.listen(3001, () => {
+  console.log("🚀 Server running on http://localhost:3001")
+})
