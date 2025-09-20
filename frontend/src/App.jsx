@@ -1,14 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from "./components/Login"
 import Register from "./components/Register"
+import Layout from "./components/Layout"
 
 function App() {
+  const user = null
+  const logout = () => console.log("logout")
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <Layout user={user} logout={logout}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   )
 }
