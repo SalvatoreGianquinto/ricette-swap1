@@ -8,17 +8,31 @@ const Navbar = () => {
     setUser(null)
   }
 
+  const avatarUrl = user?.avatar
+    ? `http://127.0.0.1:8090/api/files/users/${user.id}/${user.avatar}`
+    : null
+
   return (
     <nav className="w-full bg-white shadow p-4 flex justify-between items-center">
       <Link to="/" className="text-2xl font-bold text-red-500">
         Ricette-Swap
       </Link>
-      <div className="space-x-4">
+      <div className="flex items-center space-x-4">
         {user ? (
           <>
-            <Link to="/profile" className="hover:text-green-500">
-              {user.name}
-            </Link>
+            <div className="flex items-center space-x-2">
+              {avatarUrl && (
+                <img
+                  src={avatarUrl}
+                  alt="Avatar"
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              )}
+              <Link to="/profile" className="hover:text-green-500">
+                <span className="font-semibold">{user.name}</span>
+              </Link>
+            </div>
+
             <button
               onClick={logout}
               className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"

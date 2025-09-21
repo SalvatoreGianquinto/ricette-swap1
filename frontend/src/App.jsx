@@ -3,6 +3,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import Layout from "./components/Layout"
 import Homepage from "./components/Homepage"
+import Profile from "./components/Profile"
 
 function App() {
   const user = null
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Homepage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
     </BrowserRouter>
