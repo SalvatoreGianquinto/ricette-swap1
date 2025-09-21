@@ -6,7 +6,7 @@ import { GiCook } from "react-icons/gi"
 import Toast from "./Toast"
 
 const Login = function () {
-  const { setUser } = useAuth()
+  const { login } = useAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -19,7 +19,7 @@ const Login = function () {
       const authData = await pb
         .collection("users")
         .authWithPassword(email, password)
-      setUser(authData.record)
+      login(authData.record)
       setError("")
       setToast({ message: "Login effettuato!", type: "success" })
       setTimeout(() => navigate("/"), 1000)
