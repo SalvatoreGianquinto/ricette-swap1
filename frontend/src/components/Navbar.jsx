@@ -1,17 +1,23 @@
 import { Link } from "react-router-dom"
+import { useAuth } from "../context/AuthContent"
 
-const Navbar = function ({ user, logout }) {
+const Navbar = () => {
+  const { user, setUser } = useAuth()
+
+  const logout = () => {
+    setUser(null)
+  }
+
   return (
     <nav className="w-full bg-white shadow p-4 flex justify-between items-center">
-      <div className="text-2xl font-bold text-red-500">Ricette-Swap</div>
+      <Link to="/" className="text-2xl font-bold text-red-500">
+        Ricette-Swap
+      </Link>
       <div className="space-x-4">
-        <Link to="/" className="hover:text-green-500">
-          Home
-        </Link>
         {user ? (
           <>
             <Link to="/profile" className="hover:text-green-500">
-              Profilo
+              {user.name}
             </Link>
             <button
               onClick={logout}
@@ -40,4 +46,5 @@ const Navbar = function ({ user, logout }) {
     </nav>
   )
 }
+
 export default Navbar
