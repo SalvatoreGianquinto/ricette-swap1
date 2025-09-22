@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { GiCook } from "react-icons/gi"
+import { Link } from "react-router-dom"
 
 const Homepage = function () {
   const [ingredient, setIngredient] = useState("")
@@ -111,17 +112,18 @@ const Homepage = function () {
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.isArray(recipes) && recipes.length > 0 ? (
           recipes.map((recipe) => (
-            <div
-              key={recipe.id}
-              className="bg-white rounded shadow p-4 flex flex-col items-center"
-            >
-              <img
-                src={recipe.image}
-                alt={recipe.title}
-                className="w-full h-40 object-cover rounded mb-2"
-              />
-              <h3 className="font-bold text-lg text-center">{recipe.title}</h3>
-            </div>
+            <Link key={recipe.id} to={`/recipe/${recipe.id}`}>
+              <div className="bg-white rounded shadow p-4 flex flex-col items-center hover:shadow-lg cursor-pointer transition">
+                <img
+                  src={recipe.image}
+                  alt={recipe.title}
+                  className="w-full h-40 object-cover rounded mb-2"
+                />
+                <h3 className="font-bold text-lg text-center">
+                  {recipe.title}
+                </h3>
+              </div>
+            </Link>
           ))
         ) : (
           <p className="text-gray-500 mt-4">
