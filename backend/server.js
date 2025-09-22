@@ -24,6 +24,12 @@ app.post("/api/recipes", async (req, res) => {
       }&ingredients=${ingredients.join(",")}&number=15`
     )
 
+    if (spoonResponse.status === 402) {
+      return res.status(402).json({
+        error: "Limite giornaliero di ricette raggiunto. Riprova domani.",
+      })
+    }
+
     if (!spoonResponse.ok) {
       throw new Error(`Errore Spoonacular: ${spoonResponse.status}`)
     }

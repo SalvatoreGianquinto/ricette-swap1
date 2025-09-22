@@ -4,6 +4,7 @@ import Register from "./components/Register"
 import Layout from "./components/Layout"
 import Homepage from "./components/Homepage"
 import Profile from "./components/Profile"
+import RecipeDetail from "./components/RecipeDetail"
 
 function App() {
   const user = null
@@ -16,6 +17,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Homepage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/recipe/:id" element={<RecipeDetail />} />
         </Routes>
       </Layout>
     </BrowserRouter>

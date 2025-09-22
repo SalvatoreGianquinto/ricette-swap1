@@ -5,6 +5,7 @@ import pb from "/pb"
 
 const Profile = function () {
   const { user, setUser } = useAuth()
+  const { removeFavorite } = useAuth()
   const navigate = useNavigate()
   const [setAvatarFile] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -64,7 +65,22 @@ const Profile = function () {
         Benvenuto nel tuo profilo {user.name || user.username}
       </h2>
       <h2 className="text-3xl font-bold mb-4">Ricette salvate:</h2>
-
+      {user.favoriteRecipes?.map((r) => (
+        <div key={r.id} className="p-4 border rounded ">
+          <img
+            src={r.image}
+            alt={r.title}
+            className="w-full h-40 object-cover mb-2"
+          />
+          <h3 className="font-semibold">{r.title}</h3>
+          <button
+            onClick={() => removeFavorite(r.id)}
+            className="text-red-500 mt-2"
+          >
+            Rimuovi
+          </button>
+        </div>
+      ))}
       <button
         onClick={handleLogout}
         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

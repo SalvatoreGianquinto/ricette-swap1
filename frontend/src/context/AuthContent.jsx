@@ -30,8 +30,39 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(updatedUser))
   }
 
+  const addFavorite = async (recipe) => {
+    if (!user) return
+
+    const favorites = user.favoriteRecipes || []
+    if (favorites.some((r) => r.id === recipe.id)) return // già presente
+
+    const updatedUser = await pb.collection("users").update(user.id, {
+      favoriteRecipes: [...favorites, recipe],
+    })
+
+    setUser(updatedUser)
+    localStorage.setItem("user", JSON.stringify(updatedUser))
+  }
+
+  const removeFavorite = async (recipeId) => {
+    if (!user) return
+
+    const updatedFavorites = (user.favoriteRecipes || []).filter(
+      (r) => r.id !== recipeId
+    )
+
+    const updatedUser = await pb.collection("users").update(user.id, {
+      favoriteRecipes: updatedFavorites,
+    })
+
+    setUser(updatedUser)
+    localStorage.setItem("user", JSON.stringify(updatedUser))
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, updateUser, addFavorite, removeFavorite }}
+    >
       {children}
     </AuthContext.Provider>
   )

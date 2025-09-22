@@ -6,6 +6,7 @@ const Homepage = function () {
   const [ingredient, setIngredient] = useState("")
   const [ingredients, setIngredients] = useState([])
   const [recipes, setRecipes] = useState([])
+  const [error, setError] = useState()
 
   const addIngredient = () => {
     if (ingredient && !ingredients.includes(ingredient)) {
@@ -26,6 +27,12 @@ const Homepage = function () {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients }),
       })
+
+      if (response.status === 402) {
+        setError("Quota giornaliera esaurita. Riprova domani")
+        setRecipes([])
+        return
+      }
       const data = await response.json()
       console.log("Dati ricevuti dal server:", data)
       setRecipes(Array.isArray(data) ? data : [])
@@ -66,6 +73,7 @@ const Homepage = function () {
       </div>
 
       <div className="flex flex-col items-center mb-6 w-full max-w-xl mt-10">
+        {error && <p className="text-red-500 font-semibold mb-2">{error}</p>}
         <div className="flex w-full mb-2">
           <input
             type="text"
