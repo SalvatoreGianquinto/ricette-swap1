@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContent"
 import pb from "/pb"
 
@@ -65,25 +65,33 @@ const Profile = function () {
         Benvenuto nel tuo profilo {user.name || user.username}
       </h2>
       <h2 className="text-3xl font-bold mb-4">Ricette salvate:</h2>
-      {user.favoriteRecipes?.map((r) => (
-        <div key={r.id} className="p-4 border rounded ">
-          <img
-            src={r.image}
-            alt={r.title}
-            className="w-full h-40 object-cover mb-2"
-          />
-          <h3 className="font-semibold">{r.title}</h3>
-          <button
-            onClick={() => removeFavorite(r.id)}
-            className="text-red-500 mt-2"
-          >
-            Rimuovi
-          </button>
-        </div>
-      ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {user.favoriteRecipes?.map((r) => (
+          <Link key={r.id} to={`/recipe/${r.id}`}>
+            <div className="p-4 border rounded shadow bg-white hover:shadow-lg cursor-pointer transition">
+              <img
+                src={r.image}
+                alt={r.title}
+                className="w-full h-40 object-cover mb-2 rounded"
+              />
+              <h3 className="font-semibold text-center">{r.title}</h3>
+              <button
+                onClick={(e) => {
+                  e.preventDefault() // per evitare che il link venga attivato
+                  removeFavorite(r.id)
+                }}
+                className="text-red-500 mt-2 block mx-auto"
+              >
+                Rimuovi
+              </button>
+            </div>
+          </Link>
+        ))}
+      </div>
+
       <button
         onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-3"
       >
         Logout
       </button>

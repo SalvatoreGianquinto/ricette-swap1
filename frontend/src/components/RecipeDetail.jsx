@@ -40,7 +40,7 @@ const RecipeDetail = function () {
   if (!recipe) return null
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="max-w-4xl mx-auto p-4 ">
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
       <img
         src={recipe.image}
@@ -63,18 +63,20 @@ const RecipeDetail = function () {
           dangerouslySetInnerHTML={{ __html: recipe.instructions }}
         />
       </div>
-      <button
-        onClick={() =>
-          isFavorite ? removeFavorite(recipe.id) : addFavorite(recipe)
-        }
-        className={`px-3 py-1 rounded mt-3 ${
-          isFavorite
-            ? "bg-red-500 text-white hover:bg-red-600"
-            : "bg-yellow-500 text-white hover:bg-yellow-600"
-        }`}
-      >
-        {isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
-      </button>
+      {user && (
+        <button
+          onClick={() =>
+            isFavorite ? removeFavorite(recipe.id) : addFavorite(recipe)
+          }
+          className={`px-3 py-1 rounded mt-3 ${
+            isFavorite
+              ? "bg-red-500 text-white hover:bg-red-600"
+              : "bg-yellow-500 text-white hover:bg-yellow-600"
+          }`}
+        >
+          {isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
+        </button>
+      )}
     </div>
   )
 }

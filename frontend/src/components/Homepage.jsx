@@ -134,7 +134,7 @@ const Homepage = function () {
             </Link>
           ))
         ) : (
-          <p className="text-gray-500 mt-4">
+          <p className="text-gray-500 mt-4 text-center col-span-full">
             {ingredients.length === 0
               ? "Inserisci gli ingredienti e premi 'Cerca Ricette'."
               : "Nessuna ricetta trovata."}

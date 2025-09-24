@@ -2,11 +2,7 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContent"
 
 const Navbar = () => {
-  const { user, setUser } = useAuth()
-
-  const logout = () => {
-    setUser(null)
-  }
+  const { user, logout } = useAuth()
 
   const avatarUrl = user?.avatar
     ? `http://127.0.0.1:8090/api/files/users/${user.id}/${user.avatar}`
