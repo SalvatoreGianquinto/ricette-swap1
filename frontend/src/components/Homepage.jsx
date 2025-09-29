@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { GiCook } from "react-icons/gi"
 import { Link } from "react-router-dom"
 
@@ -7,6 +7,14 @@ const Homepage = function () {
   const [ingredients, setIngredients] = useState([])
   const [recipes, setRecipes] = useState([])
   const [error, setError] = useState()
+
+  useEffect(() => {
+    const saveIngredients =
+      JSON.parse(localStorage.getItem("lastIngredients")) || []
+    const saveRecipes = JSON.parse(localStorage.getItem("lastRecipes")) || []
+    setIngredients(saveIngredients)
+    setRecipes(saveRecipes)
+  }, [])
 
   const addIngredient = () => {
     if (ingredient && !ingredients.includes(ingredient)) {
@@ -34,8 +42,12 @@ const Homepage = function () {
         return
       }
       const data = await response.json()
-      console.log("Dati ricevuti dal server:", data)
       setRecipes(Array.isArray(data) ? data : [])
+      localStorage.setItem("lastIngredients", JSON.stringify(ingredients))
+      localStorage.setItem(
+        "lastRecipes",
+        JSON.stringify(Array.isArray(data) ? data : [])
+      )
     } catch (err) {
       console.error("Errore nel fetch:", err)
       setRecipes([])
@@ -43,10 +55,7 @@ const Homepage = function () {
   }
 
   return (
-    <div
-      className="w-full min-h-screen bg-gray-100 flex flex-col items-center p-4 bg-cover bg-no-repeat "
-      style={{ backgroundImage: "url('homepage.png')" }}
-    >
+    <div className="w-full min-h-screen flex flex-col items-center p-4 bg-gradient-to-b from-orange-200 to-white-300 overflow-x-hidden ">
       <div className="mb-10">
         <svg width="500" height="150" viewBox="0 0 500 80">
           <path id="curve" fill="transparent" d="M10,100 Q250,0 490,100" />
@@ -107,14 +116,31 @@ const Homepage = function () {
             </span>
           ))}
         </div>
-
-        <button
-          type="button"
-          onClick={searchRecipes}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-2"
-        >
-          Cerca Ricette
-        </button>
+        <div className="flex gap-2 mb-2">
+          {" "}
+          <button
+            type="button"
+            onClick={searchRecipes}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-2"
+          >
+            Cerca Ricette
+          </button>
+          {(ingredients.length > 0 || recipes.length > 0) && (
+            <button
+              onClick={() => {
+                setIngredients([])
+                setRecipes([])
+                setIngredient("")
+                localStorage.removeItem("lastIngredients")
+                localStorage.removeItem("lastRecipes")
+                setError(null)
+              }}
+              className="flex-1 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 mt-2"
+            >
+              Nuova ricerca
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

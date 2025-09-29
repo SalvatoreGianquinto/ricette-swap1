@@ -45,7 +45,7 @@ const Profile = function () {
   }
 
   return (
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col items-center bg-gradient-to-b from-orange-200 to-white-300">
       <div className="mb-4">
         <img
           src={avatarUrl || "/placeholder-avatar.png"}
@@ -61,7 +61,7 @@ const Profile = function () {
         />
       </div>
 
-      <h2 className="text-3xl font-bold mb-4">
+      <h2 className="text-3xl font-bold mb-4 px-2 sm:px-0">
         Benvenuto nel tuo profilo {user.name || user.username}
       </h2>
       <h2 className="text-3xl font-bold mb-4">Ricette salvate:</h2>

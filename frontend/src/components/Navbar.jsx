@@ -9,7 +9,7 @@ const Navbar = () => {
     : null
 
   return (
-    <nav className="w-full bg-white shadow p-4 flex justify-between items-center">
+    <nav className="w-full shadow p-4 flex justify-between items-center bg-orange-200">
       <Link to="/" className="text-2xl font-bold text-red-500">
         Ricette-Swap
       </Link>
