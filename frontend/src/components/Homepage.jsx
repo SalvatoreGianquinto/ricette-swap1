@@ -55,10 +55,7 @@ const Homepage = function () {
   }
 
   return (
-    <div
-      className="w-full min-h-screen bg-gray-100 flex flex-col items-center p-4 bg-cover bg-no-repeat "
-      style={{ backgroundImage: "url('homepage.png')" }}
-    >
+    <div className="w-full min-h-screen flex flex-col items-center p-4 bg-gradient-to-b from-orange-200 to-white-300 overflow-x-hidden ">
       <div className="mb-10">
         <svg width="500" height="150" viewBox="0 0 500 80">
           <path id="curve" fill="transparent" d="M10,100 Q250,0 490,100" />

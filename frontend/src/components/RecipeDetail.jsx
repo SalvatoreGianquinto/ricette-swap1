@@ -40,12 +40,12 @@ const RecipeDetail = function () {
   if (!recipe) return null
 
   return (
-    <div className="max-w-4xl mx-auto p-4 ">
+    <div className="max-w mx-auto p-4 bg-gradient-to-b from-orange-200 to-white-300 text-center">
       <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
       <img
         src={recipe.image}
         alt={recipe.title}
-        className="w-full h-80 object-cover rounded mb-4"
+        className="w-full max-w-md md:max-w-lg lg:max-w-xl h-auto object-cover rounded mb-4 mx-auto"
       />
       <div className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">Ingredienti</h2>
