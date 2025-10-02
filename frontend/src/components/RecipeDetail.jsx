@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom"
 import { useAuth } from "../context/AuthContent"
 
 const RecipeDetail = function () {
-  const { id } = useParams(null)
+  const { id } = useParams()
   const [recipe, setRecipe] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const { user, addFavorite, removeFavorite } = useAuth()
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const isFavorite =
     user && recipe
@@ -16,15 +17,11 @@ const RecipeDetail = function () {
 
   useEffect(() => {
     const fetchRecipe = async () => {
+      setLoading(true)
       try {
-        const res = await fetch(
-          `https://api.spoonacular.com/recipes/${id}/information?apiKey=${
-            import.meta.env.VITE_SPOONACULAR_KEY
-          }`
-        )
+        const res = await fetch(`${backendUrl}/api/recipes/${id}`)
         if (!res.ok) throw new Error("Errore nel recupero della ricetta")
         const data = await res.json()
-        console.log("d:", data)
         setRecipe(data)
       } catch (err) {
         setError(err.message)
@@ -32,8 +29,9 @@ const RecipeDetail = function () {
         setLoading(false)
       }
     }
+
     fetchRecipe()
-  }, [id])
+  }, [id, backendUrl])
 
   if (loading) return <p className="text-center mt-10">Caricamento...</p>
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>
@@ -50,7 +48,7 @@ const RecipeDetail = function () {
       <div className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">Ingredienti</h2>
         <ul className="list-disc list-inside">
-          {recipe.extendedIngredients.map((ing) => (
+          {recipe.extendedIngredients?.map((ing) => (
             <li key={ing.id}>{ing.original}</li>
           ))}
         </ul>
@@ -63,6 +61,7 @@ const RecipeDetail = function () {
           dangerouslySetInnerHTML={{ __html: recipe.instructions }}
         />
       </div>
+
       {user && (
         <button
           onClick={() =>

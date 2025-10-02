@@ -9,6 +9,7 @@ const Profile = function () {
   const navigate = useNavigate()
   const [setAvatarFile] = useState(null)
   const [loading, setLoading] = useState(false)
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     if (!user) navigate("/login")
@@ -17,7 +18,7 @@ const Profile = function () {
   if (!user) return null
 
   const avatarUrl = user.avatar
-    ? `http://127.0.0.1:8090/api/files/users/${user.id}/${user.avatar}`
+    ? `${backendUrl}/api/files/users/${user.id}/${user.avatar}`
     : null
 
   const handleAvatarChange = async (e) => {

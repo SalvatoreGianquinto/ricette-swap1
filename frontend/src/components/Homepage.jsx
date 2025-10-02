@@ -7,6 +7,7 @@ const Homepage = function () {
   const [ingredients, setIngredients] = useState([])
   const [recipes, setRecipes] = useState([])
   const [error, setError] = useState()
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     const saveIngredients =
@@ -30,17 +31,18 @@ const Homepage = function () {
   const searchRecipes = async () => {
     if (ingredients.length === 0) return
     try {
-      const response = await fetch("http://localhost:3001/api/recipes", {
+      const response = await fetch(`${backendUrl}/api/recipes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ingredients }),
       })
 
-      if (response.status === 402) {
-        setError("Quota giornaliera esaurita. Riprova domani")
+      if (!response.ok) {
+        setError(`Errore nel fetch delle ricette: ${response.status}`)
         setRecipes([])
         return
       }
+
       const data = await response.json()
       setRecipes(Array.isArray(data) ? data : [])
       localStorage.setItem("lastIngredients", JSON.stringify(ingredients))
@@ -48,14 +50,16 @@ const Homepage = function () {
         "lastRecipes",
         JSON.stringify(Array.isArray(data) ? data : [])
       )
+      setError(null)
     } catch (err) {
       console.error("Errore nel fetch:", err)
       setRecipes([])
+      setError("Errore nel fetch delle ricette")
     }
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center p-4 bg-gradient-to-b from-orange-200 to-white-300 overflow-x-hidden ">
+    <div className="w-full min-h-screen flex flex-col items-center p-4 bg-gradient-to-b from-orange-200 to-white-300 overflow-x-hidden">
       <div className="mb-10">
         <svg width="500" height="150" viewBox="0 0 500 80">
           <path id="curve" fill="transparent" d="M10,100 Q250,0 490,100" />
@@ -116,8 +120,8 @@ const Homepage = function () {
             </span>
           ))}
         </div>
+
         <div className="flex gap-2 mb-2">
-          {" "}
           <button
             type="button"
             onClick={searchRecipes}

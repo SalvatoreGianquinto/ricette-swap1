@@ -3,9 +3,10 @@ import { useAuth } from "../context/AuthContent"
 
 const Navbar = () => {
   const { user, logout } = useAuth()
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const avatarUrl = user?.avatar
-    ? `http://127.0.0.1:8090/api/files/users/${user.id}/${user.avatar}`
+    ? `${backendUrl}/api/files/users/${user.id}/${user.avatar}`
     : null
 
   return (
