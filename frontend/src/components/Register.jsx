@@ -22,25 +22,29 @@ const Register = function () {
       setError("Le password non corrispondono")
       return
     }
-
     try {
-      await pb.collection("users").create({
-        name: name,
-        email: email,
-        password: password,
+      const username = email.split("@")[0]
+      const record = await pb.collection("users").create({
+        email,
+        password,
         passwordConfirm: password,
+        name,
+        username,
       })
+      console.log("Record creato:", record)
 
       const authData = await pb
         .collection("users")
-        .authWithPassword(email, password)
+        .authWithPassword(username, password)
+      console.log("Login riuscito:", authData)
+
       login(authData.record)
       setError("")
       setToast({ message: "Registrazione effettuata!", type: "success" })
       setTimeout(() => navigate("/login"), 1000)
     } catch (err) {
-      console.error(err)
-      setError("Errore nella registrazione. Controlla i dati inseriti.")
+      console.error("Errore PocketBase:", err)
+      setError(err.message || "Errore nella registrazione")
       setToast({ message: "Errore registrazione!", type: "error" })
     }
   }

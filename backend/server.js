@@ -44,6 +44,26 @@ app.post("/api/recipes", async (req, res) => {
   }
 })
 
+app.get("/api/recipes/:id", async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const spoonResponse = await fetch(
+      `https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.SPOONACULAR_KEY}`
+    )
+
+    if (!spoonResponse.ok) {
+      throw new Error(`Errore Spoonacular: ${spoonResponse.status}`)
+    }
+
+    const recipe = await spoonResponse.json()
+    res.json(recipe)
+  } catch (err) {
+    console.error("Errore backend:", err)
+    res.status(500).json({ error: "Errore nel recupero della ricetta" })
+  }
+})
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`)
