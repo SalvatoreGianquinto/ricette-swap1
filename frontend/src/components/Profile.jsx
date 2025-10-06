@@ -9,7 +9,7 @@ const Profile = function () {
   const navigate = useNavigate()
   const [, setAvatarFile] = useState(null)
   const [loading, setLoading] = useState(false)
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const backendUrl = import.meta.env.VITE_POCKETBASE_URL
 
   useEffect(() => {
     if (!user) navigate("/login")
