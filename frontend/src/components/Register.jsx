@@ -12,11 +12,13 @@ const Register = function () {
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPasswordConfirm] = useState("")
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [toast, setToast] = useState(null)
 
   const handleRegister = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
     if (password !== passwordConfirm) {
       setError("Le password non corrispondono")
@@ -46,6 +48,8 @@ const Register = function () {
       console.error("Errore PocketBase:", err)
       setError(err.message || "Errore nella registrazione")
       setToast({ message: "Errore registrazione!", type: "error" })
+    } finally {
+      setLoading(false)
     }
   }
   return (
@@ -84,6 +88,7 @@ const Register = function () {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full p-2 mb-4 border rounded"
+          disabled={loading}
         />
         <input
           type="email"
@@ -91,6 +96,7 @@ const Register = function () {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 mb-4 border rounded"
+          disabled={loading}
         />
         <input
           type="password"
@@ -98,6 +104,7 @@ const Register = function () {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-2 mb-4 border rounded"
+          disabled={loading}
         />
         <input
           type="password"
@@ -105,13 +112,15 @@ const Register = function () {
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
           className="w-full p-2 mb-4 border rounded"
+          disabled={loading}
         />
 
         <button
           type="submit"
           className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          disabled={loading}
         >
-          Registrati
+          {loading ? "Registrazione in corso..." : "Registrati"}
         </button>
 
         <p className="mt-3">
