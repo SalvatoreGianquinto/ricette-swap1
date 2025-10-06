@@ -8,7 +8,7 @@ const RecipeDetail = function () {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const { user, addFavorite, removeFavorite } = useAuth()
-  const backendUrl = import.meta.env.VITE_POCKETBASE_URL
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const isFavorite =
     user && recipe
