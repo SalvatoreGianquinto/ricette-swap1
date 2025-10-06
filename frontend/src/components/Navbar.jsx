@@ -3,10 +3,10 @@ import { useAuth } from "../context/AuthContent"
 
 const Navbar = () => {
   const { user, logout } = useAuth()
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const pocketBaseUrl = import.meta.env.VITE_POCKETBASE_URL
 
   const avatarUrl = user?.avatar
-    ? `${backendUrl}/api/files/users/${user.id}/${user.avatar}`
+    ? `${pocketBaseUrl}/api/files/users/${user.id}/${user.avatar}`
     : null
 
   return (

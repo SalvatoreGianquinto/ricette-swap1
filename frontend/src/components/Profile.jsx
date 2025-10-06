@@ -9,7 +9,7 @@ const Profile = function () {
   const navigate = useNavigate()
   const [, setAvatarFile] = useState(null)
   const [loading, setLoading] = useState(false)
-  const backendUrl = import.meta.env.VITE_POCKETBASE_URL
+  const pocketBaseUrl = import.meta.env.VITE_POCKETBASE_URL
 
   useEffect(() => {
     if (!user) navigate("/login")
@@ -18,7 +18,7 @@ const Profile = function () {
   if (!user) return null
 
   const avatarUrl = user.avatar
-    ? `${backendUrl}/api/files/users/${user.id}/${user.avatar}`
+    ? `${pocketBaseUrl}/api/files/users/${user.id}/${user.avatar}`
     : null
 
   const handleAvatarChange = async (e) => {
