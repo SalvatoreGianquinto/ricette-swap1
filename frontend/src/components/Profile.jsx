@@ -7,7 +7,7 @@ const Profile = function () {
   const { user, setUser } = useAuth()
   const { removeFavorite } = useAuth()
   const navigate = useNavigate()
-  const [setAvatarFile] = useState(null)
+  const [, setAvatarFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const backendUrl = import.meta.env.VITE_BACKEND_URL
 
@@ -78,7 +78,7 @@ const Profile = function () {
               <h3 className="font-semibold text-center">{r.title}</h3>
               <button
                 onClick={(e) => {
-                  e.preventDefault() // per evitare che il link venga attivato
+                  e.preventDefault()
                   removeFavorite(r.id)
                 }}
                 className="text-red-500 mt-2 block mx-auto"
